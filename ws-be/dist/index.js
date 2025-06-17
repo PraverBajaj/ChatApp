@@ -45,7 +45,7 @@ wss.on('connection', (ws, request) => {
     users.push(user);
     console.log('New client connected ' + userName + ' with ID: ' + userId);
     ws.on('message', (data) => {
-        console.log('Received message:', data);
+        console.log('Received message:', JSON.parse(data));
     });
     ws.on('close', () => {
         console.log('Client disconnected');

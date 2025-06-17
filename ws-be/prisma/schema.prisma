@@ -28,12 +28,15 @@ model Chat {
   userId       String   
   user         User     @relation(fields: [userId] , references: [id])
   createdAt    DateTime @default(now())
+  roomId       String
+  room         rooms    @relation(fields: [roomId] , references: [id])
 }
 
 model rooms {
   id          String   @id @default(cuid())
   name        String
   userId      String
+  chats       Chat[]
   user        User     @relation(fields: [userId], references: [id]) 
 }
 
