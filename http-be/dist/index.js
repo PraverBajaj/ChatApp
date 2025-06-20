@@ -72,6 +72,24 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json({ error: 'Internal server error' });
     }
 }));
+app.get("/chats/:roomname", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const chats = yield db_1.prismaClient.chat.findMany({
+            where: { roomName: req.params.roomname }, include: {
+                user: {
+                    select: {
+                        username: true
+                    }
+                }
+            }
+        });
+        res.status(200).json(chats);
+    }
+    catch (error) {
+        console.error('Error fetching chats:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}));
 app.listen(PORT, () => {
     console.log(`HTTP server is running on http://localhost:${PORT}`);
 });

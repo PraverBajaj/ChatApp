@@ -19,7 +19,6 @@ model User {
   password  String
   username  String
   chats     Chat[]
-  rooms     rooms[]
 }
 
 model Chat {
@@ -27,20 +26,14 @@ model Chat {
   message      String
   userId       String   
   user         User     @relation(fields: [userId] , references: [id])
-  roomId       String
-  room         rooms    @relation(fields: [roomId] , references: [id])
   createdAt    DateTime @default(now())
+  roomName     String
 }
 
-model rooms {
-  id          String   @id @default(cuid())
-  name        String
-  userId      String
-  chats       Chat[]
-  user        User     @relation(fields: [userId], references: [id]) 
-}
-
-
-
-
-
+// model rooms {
+//   id          String   @id @default(cuid())
+//   name        String   @unique
+//   userId      String
+//   chats       Chat[]
+//   user        User     @relation(fields: [userId], references: [id]) 
+// }

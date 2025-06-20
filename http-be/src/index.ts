@@ -61,6 +61,22 @@ app.post('/login', async (req: Request, res: Response) => {
   }
 });
 
+app.get("/chats/:roomname", async (req: Request, res: Response) => {
+  try {
+    const chats = await prismaClient.chat.findMany({
+     where: 
+     { roomName: req.params.roomname },include: {
+        user: {
+          select: {
+            username: true}}}
+    })
+    res.status(200).json(chats);
+  } catch (error) {
+    console.error('Error fetching chats:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`HTTP server is running on http://localhost:${PORT}`);
