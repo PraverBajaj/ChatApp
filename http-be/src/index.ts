@@ -8,7 +8,12 @@ dotenv.config();
 
 const app =express();
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+  origin: 'https://chat-app-eta-nine-40.vercel.app', // Adjust this to your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // Allow cookies to be sent with requests
+}));
 
 const PORT = 3000;
 

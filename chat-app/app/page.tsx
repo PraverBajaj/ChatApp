@@ -87,7 +87,7 @@ const Chatty = () => {
     const data = isLogin ? loginForm : signupForm;
 
     try {
-      const response = await fetch(`http://localhost:3000${endpoint}`, {
+      const response = await fetch(`https://chatapp-1-oe4f.onrender.com${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -121,7 +121,7 @@ const Chatty = () => {
   };
 
   const connectWebSocket = (token: string) => {
-    const websocket = new WebSocket(`ws://localhost:8080?token=${token}`);
+    const websocket = new WebSocket(`https://chatapp-ws.onrender.com?token=${token}`);
 
     websocket.onopen = () => {
       setIsConnected(true);
@@ -157,7 +157,7 @@ const Chatty = () => {
     if (!roomName.trim()) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/chats/${roomName}`);
+      const response = await fetch(`https://chatapp-1-oe4f.onrender.com/chats/${roomName}`);
       const existingChats = await response.json();
 
       const formattedMessages: Message[] = existingChats.map((chat: ChatResponse) => ({
