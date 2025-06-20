@@ -1,11 +1,19 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, LogOut, Users, MessageCircle } from 'lucide-react';
+import { tokenStorage } from './utils/config';
 
 interface User {
   token: string;
   username: string;
   userId: string;
+}
+
+interface ChatResponse {
+  message: string;
+  roomName: string;
+  createdAt: string;
+  user?: { username: string };
 }
 
 interface Message {
@@ -39,17 +47,6 @@ const Chatty = () => {
   const [roomInput, setRoomInput] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const tokenStorage = {
-    get: () => {
-      return localStorage.getItem('chatAppToken');
-    },
-    set: (token: string) => {
-      localStorage.setItem('chatAppToken', token);
-    },
-    remove: () => {
-      localStorage.removeItem('chatAppToken');
-    }
-  };
 
   useEffect(() => {
     const token = tokenStorage.get();
@@ -163,7 +160,7 @@ const Chatty = () => {
       const response = await fetch(`http://localhost:3000/chats/${roomName}`);
       const existingChats = await response.json();
 
-      const formattedMessages: Message[] = existingChats.map((chat: any) => ({
+      const formattedMessages: Message[] = existingChats.map((chat: ChatResponse) => ({
         userName: chat.user?.username || 'Unknown User',
         message: chat.message,
         roomName: chat.roomName,
